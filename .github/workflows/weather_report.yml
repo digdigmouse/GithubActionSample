@@ -8,26 +8,26 @@ on:
     # 设置启动时间，为 UTC 时间, UTC23点 对应北京时间早7点
     - cron : '00 23 * * *'
   workflow_dispatch:
-
+permissions:
+  contents: read
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  my-java-build:
+    name: MY-JOB
+    runs-on: windows-latest
     env:
       TZ: Asia/Shanghai
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+    - uses: actions/checkout@v4
+    - name: Set up JDK 11 for x64
+      uses: actions/setup-java@v4
       with:
-        python-version: "3.12"
-    - name: Install dependencies
+          java-version: '11'
+          distribution: 'temurin'
+          architecture: x64
+
+    - name: Run my code
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Run weather Report
-      run: |
-        python weather_report.py
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
