@@ -9,9 +9,6 @@ on:
     - cron : '00 23 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   build:
 
